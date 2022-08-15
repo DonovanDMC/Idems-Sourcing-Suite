@@ -4,6 +4,10 @@ function produce_link (source_url, sources, description = '', tags = []) {
 	url.searchParams.set('sources', sources.join(','));
 	url.searchParams.set('description', description);
 	url.searchParams.set('tags', tags.join(' '));
+	if (url.href.length > 8000) {
+		if (description.length) return produce_link(source_url, sources, '', tags);
+		else if (tags.length) return produce_link(source_url, sources, description, []);
+	}
 	return url.href;
 }
 

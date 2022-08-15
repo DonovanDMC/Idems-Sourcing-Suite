@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Idem's Sourcing Suite
 // @description  Adds a whole bunch of utilities, helpful for sourcing images
-// @version      1.00054
+// @version      1.00055
 // @author       Meras
 
 // @namespace    https://github.com/DonovanDMC/
@@ -12,7 +12,7 @@
 
 // @license      Unlicense
 
-//               Common v26
+//               Common v27
 // @noframes
 // @connect      e621.net
 // @grant        GM.addStyle
@@ -5030,6 +5030,10 @@ function produce_link (source_url, sources, description = '', tags = []) {
 	url.searchParams.set('sources', sources.join(','));
 	url.searchParams.set('description', description);
 	url.searchParams.set('tags', tags.join(' '));
+	if (url.href.length > 8000) {
+		if (description.length) return produce_link(source_url, sources, '', tags);
+		else if (tags.length) return produce_link(source_url, sources, description, []);
+	}
 	return url.href;
 }
 
