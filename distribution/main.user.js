@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Idem's Sourcing Suite
 // @description  Adds a whole bunch of utilities, helpful for sourcing images
-// @version      1.00052
+// @version      1.00053
 // @author       Meras
 
 // @namespace    https://github.com/DonovanDMC/
@@ -12,7 +12,7 @@
 
 // @license      Unlicense
 
-//               Common v25
+//               Common v26
 // @noframes
 // @connect      e621.net
 // @grant        GM.addStyle
@@ -4425,7 +4425,10 @@ function commentary_from_text (artist, artist_link, title, description) {
 		const lines = description.split('\n').length;
 		const should_expand = lines <= 5 || description.length <= 500;
 		const expanded_text = should_expand ? ',expanded' : '';
-		return `[section${expanded_text}=${title.replace(/\[/gu, '(').replace(/\]/gu, ')')}]`;
+		let full_title = title.replace(/\[/gu, '(').replace(/\]/gu, ')');
+		if (full_title.endsWith('\n')) full_title = full_title.slice(0, -1);
+		if (full_title.endsWith('\r')) full_title = full_title.slice(0, -1);
+		return `[section${expanded_text}=${full_title}]`;
 	})();
 
 	return `${header}\n${description}\n[/section]`;
