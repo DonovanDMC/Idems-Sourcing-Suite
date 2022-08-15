@@ -8,9 +8,9 @@ const apply_header = require('./dependencies/prepend-text.js');
 const info = {
 	base_version: 25,
 	authors: 'Meras',
-	updateURL: 'https://raw.githubusercontent.com/Sasquire/Idems-Sourcing-Suite/master/distribution/header.user.js',
-	downloadURL: 'https://raw.githubusercontent.com/Sasquire/Idems-Sourcing-Suite/master/distribution/main.user.js',
-	icon: 'https://raw.githubusercontent.com/Sasquire/Idems-Sourcing-Suite/master/resources/icon32.png'
+	updateURL: 'https://raw.githubusercontent.com/DonovanDMC/Idems-Sourcing-Suite/master/distribution/header.user.js',
+	downloadURL: 'https://raw.githubusercontent.com/DonovanDMC/Idems-Sourcing-Suite/master/distribution/main.user.js',
+	icon: 'https://raw.githubusercontent.com/DonovanDMC/Idems-Sourcing-Suite/master/resources/icon32.png'
 };
 
 function bundle (header_string) {
@@ -30,8 +30,8 @@ function build_header () {
 // @version      ${get_version()}
 // @author       ${info.authors}
 
-// @namespace    https://github.com/Sasquire/
-// @supportURL   https://github.com/Sasquire/Idems-Sourcing-Suite
+// @namespace    https://github.com/DonovanDMC/
+// @supportURL   https://github.com/DonovanDMC/Idems-Sourcing-Suite
 // @updateURL    ${info.updateURL}
 // @downloadURL  ${info.downloadURL}
 // @icon         ${info.icon}
