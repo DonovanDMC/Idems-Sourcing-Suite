@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         Idem's Sourcing Suite
 // @description  Adds a whole bunch of utilities, helpful for sourcing images
-// @version      1.00051
+// @version      1.00052
 // @author       Meras
 
-// @namespace    https://github.com/Sasquire/
-// @supportURL   https://github.com/Sasquire/Idems-Sourcing-Suite
-// @updateURL    https://raw.githubusercontent.com/Sasquire/Idems-Sourcing-Suite/master/distribution/header.user.js
-// @downloadURL  https://raw.githubusercontent.com/Sasquire/Idems-Sourcing-Suite/master/distribution/main.user.js
-// @icon         https://raw.githubusercontent.com/Sasquire/Idems-Sourcing-Suite/master/resources/icon32.png
+// @namespace    https://github.com/DonovanDMC/
+// @supportURL   https://github.com/DonovanDMC/Idems-Sourcing-Suite
+// @updateURL    https://raw.githubusercontent.com/DonovanDMC/Idems-Sourcing-Suite/master/distribution/header.user.js
+// @downloadURL  https://raw.githubusercontent.com/DonovanDMC/Idems-Sourcing-Suite/master/distribution/main.user.js
+// @icon         https://raw.githubusercontent.com/DonovanDMC/Idems-Sourcing-Suite/master/resources/icon32.png
 
 // @license      Unlicense
 
@@ -30,7 +30,7 @@
 // @match        *://*.deviantart.com/*
 // @connect      wixmp.com
 
-//               FurAffinity v5
+//               FurAffinity v6
 // @match        *://*.furaffinity.net/view/*
 // @match        *://*.furaffinity.net/full/*
 // @connect      d.furaffinity.net

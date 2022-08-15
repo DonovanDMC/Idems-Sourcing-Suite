@@ -12,5 +12,5 @@ module.exports = {
 	connect: ['d.furaffinity.net'],
 
 	title: 'FurAffinity',
-	version: 5
+	version: 6
 };
