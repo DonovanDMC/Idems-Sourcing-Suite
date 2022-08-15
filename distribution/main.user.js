@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Idem's Sourcing Suite
 // @description  Adds a whole bunch of utilities, helpful for sourcing images
-// @version      1.00059
+// @version      1.00060
 // @author       Meras
 
 // @namespace    https://github.com/DonovanDMC/
@@ -12,7 +12,7 @@
 
 // @license      Unlicense
 
-//               Common v27
+//               Common v28
 // @noframes
 // @connect      e621.net
 // @grant        GM.addStyle
@@ -4955,9 +4955,16 @@ async function build_simple (options) {
 
 	const sources = [
 		window.location.href,
-		options.full_url,
-		options.artist.href
+		options.artist.href,
+		options.full_url
 	];
+	sources.forEach((source, index) => {
+		const url = new URL(source);
+		if (url.search) source = source.replace(url.search, '');
+		if (url.hash) source = source.replace(url.hash, '');
+		if (source.endsWith('/')) source = source.slice(0, -1);
+		sources[index] = source;
+	});
 
 	const setting_value_pairs = [
 		['on_site_upload_add_year_tag', options.year]
