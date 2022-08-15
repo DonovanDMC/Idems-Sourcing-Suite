@@ -110,14 +110,14 @@ function get_description () {
 	);
 }
 
-function do_upload () {
+async function do_upload () {
 	const gallery_url = document.querySelectorAll('a[href^="/en/users"]')[1].href;
 
 	const images = get_images();
 	for (let i = 0; i < images.length; i++) {
 		const image = images[i];
 
-		const button = upload_button(
+		const button = await upload_button(
 			image.best_url,
 			[
 				window.location.href,

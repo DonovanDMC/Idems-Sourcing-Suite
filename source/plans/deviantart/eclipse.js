@@ -26,8 +26,8 @@ async function run_artwork () {
 		container.appendChild(description(info));
 	});
 
-	await conditional_execute('on_site_upload_enabled', () => {
-		container.appendChild(upload(info));
+	await conditional_execute('on_site_upload_enabled', async () => {
+		container.appendChild(await upload(info));
 	});
 
 	await conditional_execute('on_site_hasher_enabled', () => {

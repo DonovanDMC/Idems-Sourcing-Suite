@@ -141,8 +141,8 @@ function do_commentary () {
 	document.getElementById('iss_container').appendChild(container);
 }
 
-function do_upload () {
-	const link = upload_button(
+async function do_upload () {
+	const link = await upload_button(
 		generate_urls()[1],
 		[
 			window.location.href,

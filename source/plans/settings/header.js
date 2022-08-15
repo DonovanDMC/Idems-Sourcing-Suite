@@ -8,5 +8,5 @@ module.exports = {
 	connect: [],
 
 	title: 'SettingsPage',
-	version: 2
+	version: 3
 };

@@ -11,5 +11,5 @@ module.exports = {
 	connect: ['i.pximg.net'],
 
 	title: 'Pixiv',
-	version: 2
+	version: 3
 };

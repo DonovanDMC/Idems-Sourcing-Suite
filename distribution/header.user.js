@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Idem's Sourcing Suite
 // @description  Adds a whole bunch of utilities, helpful for sourcing images
-// @version      1.00056
+// @version      1.00059
 // @author       Meras
 
 // @namespace    https://github.com/DonovanDMC/
@@ -44,10 +44,10 @@
 // @match        *://*.e621.net/extensions/image_compare
 // @connect      *
 
-//               InkBunny v2
+//               InkBunny v3
 // @match        *://*.inkbunny.net/s/*
 
-//               Pixiv v2
+//               Pixiv v3
 // @match        *://*.pixiv.net/*
 // @connect      i.pximg.net
 
@@ -55,7 +55,7 @@
 // @match        https://e621.net/extensions/upload_bvas
 // @connect      *
 
-//               SettingsPage v2
+//               SettingsPage v3
 // @match        *://*.e621.net/extensions
 
 //               SoFurry v2

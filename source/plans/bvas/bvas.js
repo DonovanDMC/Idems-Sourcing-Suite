@@ -1,10 +1,10 @@
 /* eslint-disable new-cap */
 /* eslint-disable no-undef */
 
-if(
+if (
 	new URL(window.location.href).host.includes('e621.net') &&
 	new URL(window.location.href).pathname.includes('/extensions/upload_bvas')
-){
+) {
 	clear_page();
 	(async () => {
 		document.body.innerHTML = await GM.getResourceText('bvas_html');
@@ -14,7 +14,7 @@ if(
 	})();
 }
 
-async function bvas(){
+async function bvas () {
 	// Init
 	(() => {
 		listener('load_post_btn', 'click', () => {
@@ -54,7 +54,7 @@ async function bvas(){
 		listener('action_delete', 'click', save_action);
 		listener('action_flag', 'click', save_action);
 		listener('action_nothing', 'click', save_action);
-		function save_action(){
+		function save_action () {
 			// eslint-disable-next-line max-len
 			const current_selection = $q('#action_selection > input:checked').value;
 			GM.setValue('bvas_action', current_selection);
@@ -75,32 +75,32 @@ async function bvas(){
 
 		load_settings();
 
-		function listener(id, type, func){
+		function listener (id, type, func) {
 			$i(id).addEventListener(type, func);
 		}
 	})();
 
-	function message(html){
+	function message (html) {
 		$i('message').innerText = html;
 		console.log(html);
 	}
 
 	const filter_tags = [
-		"better_version_at_source",
-		"smaller_version_at_source",
-		"compression_artifacts",
-		"cropped",
-		"upscale"
+		'better_version_at_source',
+		'smaller_version_at_source',
+		'compression_artifacts',
+		'cropped',
+		'upscale'
 	];
 
-	async function load_settings(){
+	async function load_settings () {
 		const username = await GM.getValue('username');
-		if(username){
+		if (username) {
 			$i('username').value = username;
 		}
 
 		const api_key = await GM.getValue('api_key');
-		if(api_key){
+		if (api_key) {
 			$i('api_key').value = api_key;
 		}
 
@@ -109,22 +109,22 @@ async function bvas(){
 		($i(`action_${action}`) || $i('action_flag')).checked = true;
 
 		const comment = await GM.getValue('bvas_comment');
-		if(comment == true){
+		if (comment == true) {
 			$i('notification_comment').checked = true;
 		}
 
 		const description = await GM.getValue('bvas_description');
-		if(description == true){
+		if (description == true) {
 			$i('notification_description').checked = true;
 		}
 
 		const notes = await GM.getValue('bvas_notes');
-		if(notes == true){
+		if (notes == true) {
 			$i('copy_notes').checked = true;
 		}
 	}
 
-	async function bvas_whole(){
+	async function bvas_whole () {
 		try {
 			const old_id = $i('old_id').innerText;
 
@@ -133,7 +133,7 @@ async function bvas(){
 			const new_id = new_post.post_id;
 
 			// Comment
-			if($i('notification_comment').checked){
+			if ($i('notification_comment').checked) {
 				message(`Posting comment to post ${new_id}`);
 				const msg = `Superior version of post #${old_id}`;
 				const result = await e621_api.comment_create(new_id, msg);
@@ -146,7 +146,7 @@ async function bvas(){
 			// Copy notes
 			const had_notes = $i('old_has_notes').innerText == 'true';
 			const do_notes = $i('copy_notes').checked;
-			if(had_notes && do_notes){
+			if (had_notes && do_notes) {
 				message('Transferring notes');
 				await transfer_notes(old_id, new_id);
 				message('Done transferring notes');
@@ -154,11 +154,11 @@ async function bvas(){
 
 			// Flag/delete old
 			const post_action = $q('input[name=action]:checked').value;
-			if(post_action == 'delete'){
+			if (post_action == 'delete') {
 				message(`Deleting ${old_id} as inferior to ${new_id}`);
 				const res = await e621_api.$inferior_delete(old_id, new_id);
 				message(`Done deleting ${old_id} - ${JSON.stringify(res)}`);
-			} else if(post_action == 'flag'){
+			} else if (post_action == 'flag') {
 				message(`Flagging ${old_id} as inferior to ${new_id}`);
 				const res = await e621_api.$inferior_flag(old_id, new_id);
 				message(`Done flagging ${old_id} - ${JSON.stringify(res)}`);
@@ -169,13 +169,13 @@ async function bvas(){
 
 			$i('message').innerHTML = 'Post uploaded successfully #';
 			$i('message').innerHTML += `<a href="https://e621.net/post/show/${new_id}">${new_id}</a>`;
-		} catch(e) {
+		} catch (e) {
 			console.log(e);
 			const msg = 'Something went wrong send a message to idem on e621';
 			$i('message').innerText += `\n${msg}\n${e}`;
 		}
 
-		async function do_upload(){
+		async function do_upload () {
 			message('Starting to upload new post');
 			const options = {
 				tags: $i('new_tags').value,
@@ -185,9 +185,9 @@ async function bvas(){
 				parent: $i('new_parent_id').value
 			};
 
-			if($i('upload_medium').innerText == 'URL'){
+			if ($i('upload_medium').innerText == 'URL') {
 				options.url = $i('new_url').value;
-			} else if($i('upload_medium').innerText == 'local file'){
+			} else if ($i('upload_medium').innerText == 'local file') {
 				options.file = $i('load_new_file').files[0];
 			} else {
 				throw new Error('Couldn\'t find url or local file');
@@ -201,19 +201,19 @@ async function bvas(){
 			return result;
 		}
 
-		async function set_children_parents(new_id){
+		async function set_children_parents (new_id) {
 			const children = $i('new_children').value
 				.split(/[^\d]/u)
 				.filter(e => e);
 
-			for(const child_id of children){
+			for (const child_id of children) {
 				message(`Setting parent of ${child_id} to ${new_id}`);
 				await e621_api.$set_parent(child_id, new_id);
 				message(`Done setting parent of ${child_id} to ${new_id}`);
 			}
 		}
 
-		async function transfer_notes(old_id, new_id){
+		async function transfer_notes (old_id, new_id) {
 			const sizes = (id) => $i(id).innerText
 				.split('x')
 				.map(e => parseInt(e, 10));
@@ -234,7 +234,7 @@ async function bvas(){
 			}));
 
 			let i = 1;
-			for(const note of fixed_notes){
+			for (const note of fixed_notes) {
 				message(`Transferring note ${i} of ${fixed_notes.length}`);
 				await e621_api.note_create(note);
 				message(`Done transferring note ${i}`);
@@ -243,14 +243,14 @@ async function bvas(){
 		}
 	}
 
-	function clear_old_data(){
+	function clear_old_data () {
 		$qa('#old_stats td ~ td, #old_fields td ~ td')
 			.filter(e => $q('#load_post_btn', e) === null)
 			.forEach(e => (e.textContent = ''));
 		$i('old_img').style.background = '';
 	}
 
-	function clear_new_data(){
+	function clear_new_data () {
 		['new_size', 'new_file_ext', 'new_md5']
 			.map(e => $i(e))
 			.forEach(e => (e.textContent = ''));
@@ -265,11 +265,11 @@ async function bvas(){
 		$c('hidable').forEach(e => e.classList.add('hidden'));
 	}
 
-	function fill_old_data(data){
+	function fill_old_data (data) {
 		message('Filling data for post');
 		clear_old_data();
 		clear_new_data();
-		if(data.status == 'deleted'){
+		if (data.status == 'deleted') {
 			message('Post was deleted. Will not continue');
 			return;
 		}
@@ -279,9 +279,9 @@ async function bvas(){
 
 		Object.entries(data).forEach(([key, value]) => {
 			const node = $i(`old_${key}`);
-			if(node === null){ return; }
+			if (node === null) { return; }
 
-			if(Array.isArray(value)){
+			if (Array.isArray(value)) {
 				node.innerText = value.join('\n');
 			} else {
 				node.innerText = value;
@@ -308,7 +308,7 @@ async function bvas(){
 		message('Post loaded');
 	}
 
-	async function load_new_image(url, blob, file_ext){
+	async function load_new_image (url, blob, file_ext) {
 		message('Loading new image');
 		const hash = await blob_to_md5(blob);
 		const img = await wait_for_image(blob);
@@ -319,7 +319,7 @@ async function bvas(){
 		$i('new_size').textContent = `${img.width}x${img.height}`;
 		$i('new_file_ext').textContent = file_ext;
 
-		if(url !== undefined){
+		if (url !== undefined) {
 			// eslint-disable-next-line max-len
 			$i('new_sources').value = `${safety_link(url)}\n${$i('new_sources').value}`;
 		}
@@ -335,7 +335,7 @@ async function bvas(){
 		message('New image loaded');
 	}
 
-	async function image_url_data(){
+	async function image_url_data () {
 		message('Getting image data from URL');
 		const new_img_url = $i('new_url').value;
 		const img_blob = await download_image(new_img_url);
@@ -344,7 +344,7 @@ async function bvas(){
 		return [new_img_url, img_blob, file_ext];
 	}
 
-	async function wait_for_image(img_blob){
+	async function wait_for_image (img_blob) {
 		return new Promise(resolve => {
 			const new_img = new Image();
 			new_img.onload = () => resolve(new_img);

@@ -6,6 +6,7 @@ module.exports = {
 	on_site_upload_enabled: true,
 	on_site_upload_add_year_tag: false,
 	on_site_commentary_enabled: true,
+	on_site_ratinglock_enabled: false,
 
 	// Individual sites that control if the on-site-utilities become enabled.
 	on_site_deviantart_enabled: true,

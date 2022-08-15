@@ -4,11 +4,11 @@ function create_description_button (info) {
 	return commentary_button(info.description);
 }
 
-function create_upload_button (info) {
+async function create_upload_button (info) {
 	const best_url = info.sources[0][0];
 	const is_from_da = new URL(best_url).hostname === 'www.deviantart.com';
 
-	const button = upload_button(
+	const button = await upload_button(
 		is_from_da ? best_url : `Manual upload is required ${best_url}`,
 		[window.location.href],
 		info.description
