@@ -9,8 +9,8 @@ module.exports = {
 		'*://*.furaffinity.net/full/*'
 	],
 
-	connect: ['d.furaffinity.net'],
+	connect: ['d.furaffinity.net', 't.furaffinity.net'],
 
 	title: 'FurAffinity',
-	version: 7
+	version: 8
 };
