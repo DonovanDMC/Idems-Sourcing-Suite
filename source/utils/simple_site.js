@@ -64,7 +64,7 @@ async function build_simple (options) {
 	const on_site_upload_enabled = await get_value('on_site_upload_enabled');
 	if (on_site_upload_enabled === true) {
 		upload_span = document.createElement('span');
-		const button = await upload_button(options.full_url, sources, commentary, tags);
+		const button = upload_button(options.full_url, sources, commentary, tags);
 		upload_span.appendChild(button);
 	}
 

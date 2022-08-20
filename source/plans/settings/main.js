@@ -45,13 +45,6 @@ function on_site_hasher_settings () {
 		description: 'Provides a convenient button to copy an artists commentary about an image.'
 	});
 
-	settings.checkbox({
-		name: 'on-site-ratinglock',
-		key: 'on_site_ratinglock_enabled',
-		default: defaults.on_site_ratinglock_enabled,
-		description: 'Locks the ratings of posts when uploading.'
-	});
-
 	site_checkbox('DeviantArt', 'https://deviantart.com/');
 	site_checkbox('FurAffinity', 'https://furaffinity.net/');
 	site_checkbox('FurryNetwork', 'https://furrynetwork.com/');

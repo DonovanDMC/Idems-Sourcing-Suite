@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Idem's Sourcing Suite
 // @description  Adds a whole bunch of utilities, helpful for sourcing images
-// @version      1.00060
+// @version      1.00056
 // @author       Meras
 
 // @namespace    https://github.com/DonovanDMC/
@@ -44,10 +44,10 @@
 // @match        *://*.e621.net/extensions/image_compare
 // @connect      *
 
-//               InkBunny v3
+//               InkBunny v2
 // @match        *://*.inkbunny.net/s/*
 
-//               Pixiv v3
+//               Pixiv v2
 // @match        *://*.pixiv.net/*
 // @connect      i.pximg.net
 
@@ -55,7 +55,7 @@
 // @match        https://e621.net/extensions/upload_bvas
 // @connect      *
 
-//               SettingsPage v3
+//               SettingsPage v2
 // @match        *://*.e621.net/extensions
 
 //               SoFurry v2
@@ -2477,7 +2477,6 @@ module.exports = {
 	on_site_upload_enabled: true,
 	on_site_upload_add_year_tag: false,
 	on_site_commentary_enabled: true,
-	on_site_ratinglock_enabled: false,
 
 	// Individual sites that control if the on-site-utilities become enabled.
 	on_site_deviantart_enabled: true,
@@ -2686,8 +2685,8 @@ async function run_artwork () {
 		container.appendChild(description(info));
 	});
 
-	await conditional_execute('on_site_upload_enabled', async () => {
-		container.appendChild(await upload(info));
+	await conditional_execute('on_site_upload_enabled', () => {
+		container.appendChild(upload(info));
 	});
 
 	await conditional_execute('on_site_hasher_enabled', () => {
@@ -2911,8 +2910,8 @@ async function run_artwork () {
 		container.appendChild(description(info));
 	});
 
-	await conditional_execute('on_site_upload_enabled', async () => {
-		container.appendChild(await upload(info));
+	await conditional_execute('on_site_upload_enabled', () => {
+		container.appendChild(upload(info));
 	});
 
 	await conditional_execute('on_site_hasher_enabled', () => {
@@ -3011,11 +3010,11 @@ function create_description_button (info) {
 	return commentary_button(info.description);
 }
 
-async function create_upload_button (info) {
+function create_upload_button (info) {
 	const best_url = info.sources[0][0];
 	const is_from_da = new URL(best_url).hostname === 'www.deviantart.com';
 
-	const button = await upload_button(
+	const button = upload_button(
 		is_from_da ? best_url : `Manual upload is required ${best_url}`,
 		[window.location.href],
 		info.description
@@ -3576,7 +3575,7 @@ module.exports = {
 	connect: [], // I have complete trust in InkBunny's md5s
 
 	title: 'InkBunny',
-	version: 3
+	version: 2
 };
 
 },{}],32:[function(require,module,exports){
@@ -3723,8 +3722,8 @@ function do_commentary () {
 	document.getElementById('iss_container').appendChild(container);
 }
 
-async function do_upload () {
-	const link = await upload_button(
+function do_upload () {
+	const link = upload_button(
 		generate_urls()[1],
 		[
 			window.location.href,
@@ -3758,7 +3757,7 @@ module.exports = {
 	connect: ['i.pximg.net'],
 
 	title: 'Pixiv',
-	version: 3
+	version: 2
 };
 
 },{}],34:[function(require,module,exports){
@@ -3874,14 +3873,14 @@ function get_description () {
 	);
 }
 
-async function do_upload () {
+function do_upload () {
 	const gallery_url = document.querySelectorAll('a[href^="/en/users"]')[1].href;
 
 	const images = get_images();
 	for (let i = 0; i < images.length; i++) {
 		const image = images[i];
 
-		const button = await upload_button(
+		const button = upload_button(
 			image.best_url,
 			[
 				window.location.href,
@@ -3943,7 +3942,7 @@ module.exports = {
 	connect: [],
 
 	title: 'SettingsPage',
-	version: 3
+	version: 2
 };
 
 },{}],36:[function(require,module,exports){
@@ -3992,13 +3991,6 @@ function on_site_hasher_settings () {
 		key: 'on_site_commentary_enabled',
 		default: defaults.on_site_commentary_enabled,
 		description: 'Provides a convenient button to copy an artists commentary about an image.'
-	});
-
-	settings.checkbox({
-		name: 'on-site-ratinglock',
-		key: 'on_site_ratinglock_enabled',
-		default: defaults.on_site_ratinglock_enabled,
-		description: 'Locks the ratings of posts when uploading.'
 	});
 
 	site_checkbox('DeviantArt', 'https://deviantart.com/');
@@ -4995,7 +4987,7 @@ async function build_simple (options) {
 	const on_site_upload_enabled = await get_value('on_site_upload_enabled');
 	if (on_site_upload_enabled === true) {
 		upload_span = document.createElement('span');
-		const button = await upload_button(options.full_url, sources, commentary, tags);
+		const button = upload_button(options.full_url, sources, commentary, tags);
 		upload_span.appendChild(button);
 	}
 
@@ -5040,16 +5032,12 @@ module.exports = {
 };
 
 },{"./artist_commentary.js":43,"./gm_values.js":45,"./hash_image.js":46,"./nodes.js":48,"./upload_url.js":51}],51:[function(require,module,exports){
-const { get_value } = require('./gm_values');
-
-async function produce_link (source_url, sources, description = '', tags = []) {
+function produce_link (source_url, sources, description = '', tags = []) {
 	const url = new URL('https://e621.net/uploads/new');
 	url.searchParams.set('upload_url', source_url);
-	if (sources.length) url.searchParams.set('sources', sources.join(','));
-	if (description.length) url.searchParams.set('description', description);
-	if (tags.length) url.searchParams.set('tags', tags.join(' '));
-	const ratinglock = await get_value('on_site_ratinglock_enabled');
-	if (ratinglock === true) url.searchParams.set('rating_locked', 'true');
+	url.searchParams.set('sources', sources.join(','));
+	url.searchParams.set('description', description);
+	url.searchParams.set('tags', tags.join(' '));
 	if (url.href.length > 8000) {
 		if (description.length) return produce_link(source_url, sources, '', tags);
 		else if (tags.length) return produce_link(source_url, sources, description, []);
@@ -5057,7 +5045,7 @@ async function produce_link (source_url, sources, description = '', tags = []) {
 	return url.href;
 }
 
-async function upload_button (source_url, sources, description, tags = []) {
+function upload_button (source_url, sources, description, tags = []) {
 	const link = document.createElement('a');
 	link.textContent = 'Upload to e621';
 	link.id = 'iss_upload_link';
@@ -5072,7 +5060,7 @@ module.exports = {
 	upload_button: upload_button
 };
 
-},{"./gm_values":45}],52:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 module.exports = {
 	...require('./artist_commentary.js'),
 	...require('./e621_api.js'),
